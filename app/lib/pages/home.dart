@@ -97,11 +97,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                   icon: Icon(Icons.notification_important, color: colorAnimations[i].value),
                   onPressed: (){
                     // todoP.todos[i].important = !todoP.todos[i].important;
-                    if (todoP.todos[i].important){
+                    if (todoP.todos[i].animationStatus){
                       todoP.todos[i].important = !todoP.todos[i].important;
+                      todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
                       controllers[i].reverse();
                     }else {
                       todoP.todos[i].important = !todoP.todos[i].important;
+                      todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
                       controllers[i].forward();
                     }
                     
@@ -114,7 +116,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
             IconButton(
               icon: Icon(Icons.delete, color: Colors.red),
               onPressed: (){
-                todoP.deleteTask(todoP.todos[i]);
+                todoP.deleteTask(i);
               }
             )
           ],

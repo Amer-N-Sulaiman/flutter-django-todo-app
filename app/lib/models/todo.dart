@@ -4,6 +4,8 @@ class Todo{
   bool important;
   int author;
 
+  bool animationStatus=false;
+
   Todo({this.title, this.body, this.important, this.author});
 
   factory Todo.fromJson(Map<String, dynamic> json) {
