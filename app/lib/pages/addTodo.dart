@@ -21,7 +21,7 @@ class _AddTodoState extends State<AddTodo> {
 
     final todoP = Provider.of<TodoProvider>(context, listen: false);
 
-    Todo todo = Todo(title:title, body:body, author:1);
+    Todo todo = Todo(title:title, body:body, important:false, author:1);
     todoP.addTask(todo);
 
   }

@@ -12,9 +12,9 @@ class TodoProvider with ChangeNotifier{
   
  
 
-  Todo todo1 = Todo(title:'Learn to use Git', body:'you need to finish this task before the end of this month', author:1);
-  Todo todo2 = Todo(title:'send requests from flutter', body:'you need to finish this task before the end of this month', author:1);
-  Todo todo3 = Todo(title:'get A in University', body:'you need to focus a lot on this task', author:1);
+  Todo todo1 = Todo(title:'Learn to use Git', body:'you need to finish this task before the end of this month', important: false, author:1);
+  Todo todo2 = Todo(title:'send requests from flutter', body:'you need to finish this task before the end of this month', important: false, author:1);
+  Todo todo3 = Todo(title:'complete the assignment for the programming class', body:'you need to focus a lot on this task', important: true, author:1);
 
  
   TodoProvider() {
