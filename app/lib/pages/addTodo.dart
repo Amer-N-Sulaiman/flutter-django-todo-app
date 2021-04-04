@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:app/Components/drawer.dart';
 import 'package:provider/provider.dart';
@@ -31,14 +33,7 @@ class _AddTodoState extends State<AddTodo> {
     
 
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Todo')
-      ),
-      drawer: MyDrawer(),
-      body: Container(
-        child: Card(
-          child: Column(
+    return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               
@@ -65,22 +60,19 @@ class _AddTodoState extends State<AddTodo> {
                     ),
                   ),
                 ) 
-              )
-              ,
+              ),
               Center(
                 child: ElevatedButton(
                   child: Text('Submit'),
                   onPressed: () {
                     addTodo();
                     Navigator.of(context).pop();
-                  }
+                  },
+                
                 ),
               )
             ],
-          ),
-        ),
-      )
-    );
+          );
     
     
   }

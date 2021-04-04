@@ -2,6 +2,7 @@ import 'package:app/api/todoApi.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app/Components/drawer.dart';
+import 'package:app/pages/addTodo.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,24 +10,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin{
-  
-  // AnimationController _controller;
-
-  // Animation _colorAnimation;
-
-  void initState() {
-    super.initState();
-
-    // _controller = AnimationController(
-    //   duration: Duration(milliseconds: 500),
-    //   vsync: this,
-    // );
-
-    // _controller.addListener(() {
-
-    //   print(_controller.value);
-    // });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,31 +123,23 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
             );
           }
         ),
-        /*
-        We could write the below code instead of the list
-        body: ListView.builder(
-            itemCount: todoP.todos.length,
-            itemBuilder: (BuildContext context, int index){
-              return ListTile(
-                title: Text(todoP.todos[index].title),
-                subtitle: Text(todoP.todos[index].body),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: (){
-                    todoP.deleteTask(todoP.todos[index]);
-                  }
-                ),
-              );
-            },
-
-        ),
-        */
           
 
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: (){
-            Navigator.of(context).pushNamed('addTodo');
+          onPressed: () {
+          showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                  height: 200,
+                  color: Colors.white10,
+                  child: Center(
+                    child: AddTodo(),
+                  ),
+                );
+              },
+            );
           },
           
         ),
