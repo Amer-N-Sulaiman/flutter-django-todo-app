@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/pages/signup.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -15,10 +16,18 @@ class _MyDrawerState extends State<MyDrawer> {
              accountEmail: Text('amersulaiman10@gmail.com'),
           ),
           ListTile(
-            title: Text('Log in'),
+            title: TextButton(
+              child: Text('Log In'),
+              onPressed: () {},
+            ),
           ),
           ListTile(
-            title: Text('Sign up'),
+            title: TextButton(
+              child: Text('Sign Up'),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Signup()));
+              },
+            ),
           ),
         ]));
   }

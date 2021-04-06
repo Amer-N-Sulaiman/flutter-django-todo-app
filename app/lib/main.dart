@@ -3,6 +3,7 @@ import 'package:app/api/todoApi.dart';
 import 'package:provider/provider.dart';
 import 'package:app/pages/home.dart';
 import 'package:app/pages/addTodo.dart';
+import 'package:app/pages/signup.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       create: (context) => TodoProvider(),
           child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Home(),
+        home: Signup(),
         routes: {
           'addTodo': (context){
             return AddTodo();

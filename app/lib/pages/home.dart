@@ -17,8 +17,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     final todoP = Provider.of<TodoProvider>(context);
     
-    
-    todoP.fetchTasks();
+
     List<Widget> homeWidgets = [];
 
     homeWidgets.add(
