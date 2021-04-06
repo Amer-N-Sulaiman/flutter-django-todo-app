@@ -8,6 +8,7 @@ class TodoSerializer(serializers.ModelSerializer):
         fields = (
             'title',
             'body',
+            'important',
             'author'
         )
 
@@ -15,6 +16,7 @@ class TodoSerializer(serializers.ModelSerializer):
         todo = Todo(
             title = self.validated_data['title'],
             body = self.validated_data['body'],
+            important = self.validated_data['important'],
             author = self.author
         )
 
