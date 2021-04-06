@@ -10,7 +10,7 @@ class Todo{
 
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(
-        title: json['title'], body: json['title'], important: json['important'], author: json['body']);
+        title: json['title'], body: json['title'], important: json['important'], author: json['author']);
   }
   dynamic toJson() => {'author': author, 'title': title, 'important': important, 'body': body};
 }

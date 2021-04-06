@@ -10,11 +10,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin{
+  
+
 
   @override
   Widget build(BuildContext context) {
     final todoP = Provider.of<TodoProvider>(context);
-
+    
+    
+    todoP.fetchTasks();
     List<Widget> homeWidgets = [];
 
     homeWidgets.add(
@@ -43,7 +47,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
 
     for (var i=0; i<todoP.todos.length; i++){
       AnimationController controller = AnimationController(
-        duration: Duration(milliseconds: 250),
+        duration: Duration(milliseconds: 200),
         vsync: this,
       );
 
@@ -81,13 +85,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                   onPressed: (){
                     // todoP.todos[i].important = !todoP.todos[i].important;
                     if (todoP.todos[i].animationStatus){
-                      todoP.todos[i].important = !todoP.todos[i].important;
                       todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
                       controllers[i].reverse();
-                    }else {
                       todoP.todos[i].important = !todoP.todos[i].important;
-                      todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
+                    }else {
+                      
+                      
                       controllers[i].forward();
+                      todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
+                      todoP.todos[i].important = !todoP.todos[i].important;
                     }
                     
                     
@@ -100,6 +106,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
               icon: Icon(Icons.delete, color: Colors.red),
               onPressed: (){
                 todoP.deleteTask(i);
+                controllers.removeAt(i);
+                colorAnimations.removeAt(i);
               }
             )
           ],
