@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:app/api/authentication.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -7,13 +9,27 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
 
-  final email = TextEditingController();
-  final username = TextEditingController();
-  final password = TextEditingController();
-  final password2 = TextEditingController();
+  final emailController = TextEditingController();
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final password2Controller = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
+    final authP = Provider.of<AuthProvider>(context);
+    
+    void signup(){
+      String email = emailController.text;
+      String username = usernameController.text;
+      String password = passwordController.text;
+      String password2 = password2Controller.text;
+
+      authP.signup(email, username, password, password2);
+      Navigator.of(context).pop();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign Up')
@@ -44,7 +60,7 @@ class _SignupState extends State<Signup> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                       child: TextFormField(
-                        controller: email,
+                        controller: emailController,
                         decoration: InputDecoration(
                           border: UnderlineInputBorder(),
                           labelText: 'Enter Your Email',
@@ -56,7 +72,7 @@ class _SignupState extends State<Signup> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                       child: TextFormField(
-                        controller: username,
+                        controller: usernameController,
                         decoration: InputDecoration(
                           border: UnderlineInputBorder(),
                           labelText: 'Enter Your Username',
@@ -68,7 +84,7 @@ class _SignupState extends State<Signup> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                       child: TextFormField(
-                        controller: password,
+                        controller: passwordController,
                         decoration: InputDecoration(
                           border: UnderlineInputBorder(),
                           labelText: 'Enter A Password',
@@ -80,7 +96,7 @@ class _SignupState extends State<Signup> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                       child: TextFormField(
-                        controller: password2,
+                        controller: password2Controller,
                         decoration: InputDecoration(
                           border: UnderlineInputBorder(),
                           labelText: 'Confirm Your Password',
@@ -91,7 +107,9 @@ class _SignupState extends State<Signup> {
                   Center(
                     child: ElevatedButton(
                       child: Text('Submit'),
-                      onPressed: () {},
+                      onPressed: () {
+                        signup();
+                      },
                     
                     ),
                   )
