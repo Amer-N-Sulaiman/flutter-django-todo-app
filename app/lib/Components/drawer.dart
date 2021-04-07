@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/pages/signup.dart';
+import 'package:app/pages/login.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -18,7 +19,9 @@ class _MyDrawerState extends State<MyDrawer> {
           ListTile(
             title: TextButton(
               child: Text('Log In'),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login()));
+              },
             ),
           ),
           ListTile(
