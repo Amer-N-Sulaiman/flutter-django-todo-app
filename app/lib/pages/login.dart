@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app/api/authentication.dart';
+import 'package:flutter_session/flutter_session.dart';
+import 'package:app/pages/home.dart';
 import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
@@ -16,16 +18,22 @@ class _LoginState extends State<Login> {
   
 
   @override
-  Widget build(BuildContext context) {
-    print('login');
+  Widget build(BuildContext context){
     final authP = Provider.of<AuthProvider>(context);
+
+    if (authP.authStatus){
+      Navigator.of(context).pop();
+      print(authP.authStatus);
+    }
+    print('login');
+    
 
     void login(){
       final email = emailController.text;
       final password = passwordController.text;
 
       authP.login(email, password);
-      Navigator.of(context).pop();
+      
     }
 
     return Scaffold(
@@ -84,7 +92,14 @@ class _LoginState extends State<Login> {
                     child: ElevatedButton(
                       child: Text('Login'),
                       onPressed: () {
-                        login();                        
+                        login();
+                        setState((){
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(builder: (context) => Home()),
+                          );
+                        });
+                        
                       },
                     
                     ),

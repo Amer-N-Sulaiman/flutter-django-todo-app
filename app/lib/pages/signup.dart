@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app/api/authentication.dart';
+import 'package:app/pages/home.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -109,6 +110,12 @@ class _SignupState extends State<Signup> {
                       child: Text('Submit'),
                       onPressed: () {
                         signup();
+                        setState((){
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(builder: (context) => Home()),
+                          );
+                        });
                       },
                     
                     ),

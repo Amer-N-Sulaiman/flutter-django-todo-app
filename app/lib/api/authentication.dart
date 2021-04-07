@@ -9,6 +9,10 @@ import 'package:flutter_session/flutter_session.dart';
 
 class AuthProvider extends ChangeNotifier{
   // final storage = new FlutterSecureStorage();
+  bool authStatus = false;
+
+  
+  
 
 
   void signup(String email, String username, String password, String password2) async{
@@ -16,11 +20,12 @@ class AuthProvider extends ChangeNotifier{
     final response = await http.post(Uri.http('192.168.43.112:8000', 'account/registeration/'),
         headers: {"Content-Type": "application/json"}, body: json.encode(user));
     if (response.statusCode == 200) {
-      final token = json.decode(response.body)['token'];
+      var token = json.decode(response.body)['token'];
       // await storage.write(key: 'AuthToken', value: token);
       await FlutterSession().set('token', token);
       notifyListeners();
     }
+    authStatus = true;
   }
 
   void login(String email, String password) async{
@@ -41,5 +46,11 @@ class AuthProvider extends ChangeNotifier{
     }
     // await storage.write(key: 'AuthToken', value: token);
     await FlutterSession().set('token', token);
+    authStatus = true;
+  }
+
+  void logout() async{
+    FlutterSession().set('token', json.encode(null));
+    authStatus = false;
   }
 }

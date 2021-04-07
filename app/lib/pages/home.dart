@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app/Components/drawer.dart';
 import 'package:app/pages/addTodo.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,13 +11,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin{
-  
+  bool isAuth;
+  void initState() {
+    getIsAuth();
+    super.initState();
+  }
 
+  getIsAuth() async{
+    final token = await FlutterSession().get('token');
+    setState((){
+        if(token==null){
+          isAuth = false;
+        } else {
+          isAuth = true;
+        }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final todoP = Provider.of<TodoProvider>(context);
-    
 
     List<Widget> homeWidgets = [];
 
@@ -39,80 +53,102 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
         }
       )
     );
+    if (isAuth){
+      List <AnimationController> controllers= [];
 
-    List <AnimationController> controllers= [];
+      List <Animation> colorAnimations = [];
 
-    List <Animation> colorAnimations = [];
-
-    for (var i=0; i<todoP.todos.length; i++){
-      AnimationController controller = AnimationController(
-        duration: Duration(milliseconds: 200),
-        vsync: this,
-      );
+      for (var i=0; i<todoP.todos.length; i++){
+        AnimationController controller = AnimationController(
+          duration: Duration(milliseconds: 200),
+          vsync: this,
+        );
 
 
-      controllers.add(controller);
-      controllers[i].addListener(() {
-        print(controllers[i].value);
-      });
-      Animation _colorAnimation;
+        controllers.add(controller);
+        controllers[i].addListener(() {
+          print(controllers[i].value);
+        });
+        Animation _colorAnimation;
 
-      if (!todoP.todos[i].important){
-        _colorAnimation = ColorTween(begin: Colors.grey[400], end: Colors.red)
-          .animate(controllers[i]);
+        if (!todoP.todos[i].important){
+          _colorAnimation = ColorTween(begin: Colors.grey[400], end: Colors.red)
+            .animate(controllers[i]);
+          
+        } else {
+          _colorAnimation = ColorTween(begin: Colors.red, end: Colors.grey[400])
+            .animate(controllers[i]);
+        }
         
-      } else {
-        _colorAnimation = ColorTween(begin: Colors.red, end: Colors.grey[400])
-          .animate(controllers[i]);
-      }
-      
 
 
-      colorAnimations.add(_colorAnimation);
+        colorAnimations.add(_colorAnimation);
 
-      homeWidgets.add(ListTile(
-        title: Text(todoP.todos[i].title),
-        subtitle: Text(todoP.todos[i].body),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            AnimatedBuilder(
-              animation: controllers[i],
-              builder: (BuildContext context, _){
-                return IconButton(
-                  icon: Icon(Icons.notification_important, color: colorAnimations[i].value),
-                  onPressed: (){
-                    // todoP.todos[i].important = !todoP.todos[i].important;
-                    if (todoP.todos[i].animationStatus){
-                      todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
-                      controllers[i].reverse();
-                      todoP.todos[i].important = !todoP.todos[i].important;
-                    }else {
+        homeWidgets.add(ListTile(
+          title: Text(todoP.todos[i].title),
+          subtitle: Text(todoP.todos[i].body),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              AnimatedBuilder(
+                animation: controllers[i],
+                builder: (BuildContext context, _){
+                  return IconButton(
+                    icon: Icon(Icons.notification_important, color: colorAnimations[i].value),
+                    onPressed: (){
+                      // todoP.todos[i].important = !todoP.todos[i].important;
+                      if (todoP.todos[i].animationStatus){
+                        todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
+                        controllers[i].reverse();
+                        todoP.todos[i].important = !todoP.todos[i].important;
+                      }else {
+                        
+                        
+                        controllers[i].forward();
+                        todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
+                        todoP.todos[i].important = !todoP.todos[i].important;
+                      }
                       
                       
-                      controllers[i].forward();
-                      todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
-                      todoP.todos[i].important = !todoP.todos[i].important;
                     }
-                    
-                    
-                  }
-                );
-            }
-                   
-            ),
-            IconButton(
-              icon: Icon(Icons.delete, color: Colors.red),
-              onPressed: (){
-                todoP.deleteTask(i);
-                controllers.removeAt(i);
-                colorAnimations.removeAt(i);
+                  );
               }
-            )
-          ],
-        )
-      ));
+                    
+              ),
+              IconButton(
+                icon: Icon(Icons.delete, color: Colors.red),
+                onPressed: (){
+                  todoP.deleteTask(i);
+                  controllers.removeAt(i);
+                  colorAnimations.removeAt(i);
+                }
+              )
+            ],
+          )
+        ));
+      }
+    } else {
+      homeWidgets.add(
+        TweenAnimationBuilder(
+        duration: Duration(milliseconds: 2400),
+        tween: Tween<double>(begin:0, end:1),
+        child: Container(
+          margin: EdgeInsets.all(40),
+          child: Text('Login To Manage Your Todos', style: TextStyle(
+            fontSize: 15,
+            letterSpacing: 2,
+          ), textAlign: TextAlign.center,),
+        ),
+        builder: (BuildContext context, double _val, Widget child){
+          return Opacity(
+            opacity: _val,
+            child: child,
+          );
+        }
+      )
+      );
     }
+    
     return Scaffold(
         appBar: AppBar(
           title: Text('Todo App'),
