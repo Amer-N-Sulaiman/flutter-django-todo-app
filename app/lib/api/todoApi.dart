@@ -27,7 +27,14 @@ class TodoProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  void addTask(Todo todo){
+  void addTask(Todo todo) async{
+    final token = await FlutterSession().get('token');
+
+    final response = http.post(Uri.http(base_url, 'todo/list/'), headers: {
+      "Content-Type": "application/json",
+      'Authorization': 'Token $token',
+    },
+    body: json.encode(todo));
     _todos.add(todo);
     notifyListeners();
   }

@@ -30,15 +30,17 @@ class TodoList(APIView):
     def post(self, request):
         
         serializer = TodoSerializer(data=request.data)
-        serializer.set_password(request.data['password'])
+ 
         data = {}
         user = request.user
         if serializer.is_valid():
             serializer.author = user
             todo = serializer.save()
-            data['id'] = todo.id
+
             data['title'] = todo.title
             data['body'] = todo.body
+            data['important'] = todo.important
+            data['author'] = todo.author
         else:
             data = 'there was an error'
         return Response(data)
