@@ -22,7 +22,19 @@ class TodoProvider with ChangeNotifier{
     return [..._todos];
   }
 
-  void deleteTask(int i){
+  void deleteTask(int i) async{
+    
+    final token = await FlutterSession().get('token');
+    Todo todo = todos[i];
+    print(1111);
+    print(todo.id);
+    print(2222);
+    final response = http.delete(Uri.http(base_url, 'todo/list'), headers: {
+      "Content-Type": "application/json",
+      'Authorization': 'Token $token',
+    },
+    body: json.encode({'id': todo.id}));
+
     _todos.removeAt(i);
     notifyListeners();
   }

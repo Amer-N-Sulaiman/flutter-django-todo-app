@@ -1,4 +1,5 @@
 class Todo{
+  int id;
   String title;
   String body;
   bool important;
@@ -6,11 +7,11 @@ class Todo{
 
   bool animationStatus=false;
 
-  Todo({this.title, this.body, this.important, this.author});
+  Todo({this.id, this.title, this.body, this.important, this.author});
 
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(
-        title: json['title'], body: json['title'], important: json['important'], author: json['author']);
+        id:json['id'], title: json['title'], body: json['title'], important: json['important'], author: json['author']);
   }
-  dynamic toJson() => {'author': author, 'title': title, 'important': important, 'body': body};
+  dynamic toJson() => {'id': id, 'author': author, 'title': title, 'important': important, 'body': body};
 }
