@@ -52,6 +52,12 @@ class TodoList(APIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def put(self, request):
+        todo = Todo.objects.get(pk=request.data['id'])
+        todo.important = not todo.important
+        todo.save()
+        return Response(status=status.HTTP_200_OK)
+
 
 class OpenTodoList(APIView):
     permission_classes = [AllowAny, ]
