@@ -10,8 +10,8 @@ import 'package:flutter_session/flutter_session.dart';
 class AuthProvider extends ChangeNotifier{
   // final storage = new FlutterSecureStorage();
   bool authStatus = false;
-  String base_url = '192.168.1.4:8000';
-  
+  String base_url = '192.168.43.112:8000';
+  User user;
   
 
 
@@ -22,7 +22,12 @@ class AuthProvider extends ChangeNotifier{
     if (response.statusCode == 200) {
       var token = json.decode(response.body)['token'];
       // await storage.write(key: 'AuthToken', value: token);
+      this.user = User(email:email, username:username, password:null, password2:null);
+      
       await FlutterSession().set('token', token);
+      await FlutterSession().set('email', email);
+      await FlutterSession().set('username', username);
+
       notifyListeners();
     }
     authStatus = true;
@@ -39,8 +44,18 @@ class AuthProvider extends ChangeNotifier{
     var token;
     if (response.statusCode == 200){
       token = json.decode(response.body)['token'];
-      print('ok');
-      print(token);
+      final userInfoResponse = await http.get(Uri.http(base_url, 'account/currentUserinfo/'), headers: {
+      "Content-Type": "application/json",
+      'Authorization': 'Token $token',
+      });
+      if(response.statusCode == 200){
+        var username = json.decode(userInfoResponse.body)['username'];
+        await FlutterSession().set('email', email);
+        await FlutterSession().set('username', username);
+      }else{
+        print('error2');
+      }
+      
     } else{
       print('error');
     }

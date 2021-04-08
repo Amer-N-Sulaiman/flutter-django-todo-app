@@ -13,6 +13,8 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
   bool isAuth = false;
+  String email;
+  String username;
 
   String query;
 
@@ -23,6 +25,9 @@ class _MyDrawerState extends State<MyDrawer> {
 
   getIsAuth() async{
     final token = await FlutterSession().get('token');
+    email = await FlutterSession().get('email');
+    username = await FlutterSession().get('username');
+    
     setState((){
         if(token==null){
           isAuth = false;
@@ -67,8 +72,8 @@ class _MyDrawerState extends State<MyDrawer> {
       drawerContent = [
         UserAccountsDrawerHeader(
           currentAccountPicture: Icon(Icons.person),
-          accountName: Text('Amer Sulaiman'),
-            accountEmail: Text('amersulaiman10@gmail.com'),
+          accountName: Text('$username'),
+            accountEmail: Text('$email'),
         ),
         ListTile(
           title: TextButton(

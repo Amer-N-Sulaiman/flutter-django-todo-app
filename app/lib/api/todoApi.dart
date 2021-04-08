@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 
 class TodoProvider with ChangeNotifier{
-  String base_url = '192.168.1.4:8000';
+  String base_url = '192.168.43.112:8000';
 
   List <Todo> _todos = [];  
 
