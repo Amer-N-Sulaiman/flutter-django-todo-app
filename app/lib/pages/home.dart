@@ -97,6 +97,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                     icon: Icon(Icons.notification_important, color: colorAnimations[i].value),
                     onPressed: (){
                       // todoP.todos[i].important = !todoP.todos[i].important;
+                      todoP.importaceChange(i);
+                      
                       if (todoP.todos[i].animationStatus){
                         todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
                         controllers[i].reverse();
@@ -108,6 +110,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                         todoP.todos[i].animationStatus = !todoP.todos[i].animationStatus;
                         todoP.todos[i].important = !todoP.todos[i].important;
                       }
+                      
+                      
                       
                       
                     }
